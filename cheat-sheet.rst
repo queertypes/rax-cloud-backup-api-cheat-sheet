@@ -28,6 +28,7 @@ sheet:
 
     auth=my-awesome-auth-token-from-a-rackspace-keystone-endpoint
     backup=https://backup.api.rackspacecloud.com/v1.0
+    agentId=YourAgentId
 
 For brevity's sake, I've omitted several HTTP headers from API
 responses.
@@ -153,15 +154,50 @@ Returns details about your machine and the agent installed.
 Enable or Disable the Agent
 ---------------------------
 
+Make a request using a JSON body to disable a specific agent::
 
+    http post $backup/agent/enable x-auth-token:$auth \
+      MachineAgentId=$agentid Enable=False
+
+.. code-block:: http
+
+    HTTP/1.1 204 No Content
+
+Now to enable that agent again::
+
+    http post $backup/agent/enable x-auth-token:$auth \
+      MachineAgentId=$agentid Enable=True
+
+.. code-block:: http
+
+    HTTP/1.1 204 No Content
 
 ------------------------
 Enable Volume Encryption
 ------------------------
 
+**Warning**: This is a **one-way** operation. Once you enable
+ encryption, there's no going back!
+
+With that said, this is how you enable encryption::
+
+    http post $backup/agent/encrypt MachineAgentId=$agentid \
+      EncryptedPasswordHex=long_hash_982239846_hexd_up
+
 ------------
 Delete Agent
 ------------
+
+It goes without saying - deleting an agent is permanent. It also
+**wipes out all backup data** associated with that agent.
+
+Here we go::
+
+    http post $backup/agent/delete MachineAgentId=$agentid
+
+.. code-block:: http
+
+    HTTP/1.1 204 No Content
 
 ===============
 User Operations
