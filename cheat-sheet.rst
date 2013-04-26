@@ -203,9 +203,52 @@ Here we go::
 User Operations
 ===============
 
+Synopsis::
+
+    GET /user/agents
+
 ---------------------------
 Get All Agents for the User
 ---------------------------
+
+This request lists all agents asasociated with a user.
+It gives *a lot* of information:
+
+.. code-block:: bash
+
+    http $backup/user/agents x-auth-token:$auth
+
+.. code-block:: http
+
+    [
+        {
+            "AgentVersion": "1.05.006334",
+            "Architecture": "64-bit",
+            "BackupDatacenter": "None",
+            "BackupVaultSize": null,
+            "CleanupAllowed": false,
+            "Datacenter": "DFW",
+            "Flavor": "RaxCloudServer",
+            "IPAddress": "166.78.156.202",
+            "IsDisabled": true,
+            "IsEncrypted": false,
+            "MachineAgentId": 169057,
+            "MachineName": "keystone-auth-cache",
+            "OperatingSystem": "Ubuntu",
+            "OperatingSystemVersion": "12.10",
+            "PublicKey": {
+                "ExponentHex": 10101,
+                "ModulusHex": "long"
+            },
+            "Status": "Unknown",
+            "TimeOfLastSuccessfulBackup": null,
+            "UseFailoverUri": false,
+            "UseServiceNet": true
+        },
+        {
+            ...
+        }
+    ]
 
 ===============================
 Backup Configuration Operations
