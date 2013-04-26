@@ -285,9 +285,9 @@ Below is the request body as stored in conf.json:
     {
        "BackupConfigurationName": "Weekly Website Backup",
        "IsActive": true,
-       "VersionRetention": 0|30|60,
+       "VersionRetention": "0|30|60",
        "MissedBackupActionId": 1,
-       "Frequency": "Hourly,
+       "Frequency": "Hourly",
        "StartTimeHour": 6,
        "StartTimeMinute": 30,
        "StartTimeAmPm": "PM",
