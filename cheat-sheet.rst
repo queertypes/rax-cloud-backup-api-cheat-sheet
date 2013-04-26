@@ -254,33 +254,244 @@ It gives *a lot* of information:
 Backup Configuration Operations
 ===============================
 
+A backup configuration specifies what files are backed up and how
+often. This section details how to manage backup configurations
+through the API::
+
+    POST /backup-configuration
+    GET /backup-configuration
+
+    DELETE /backup-configuration/{backupConfigId}
+    PUT /backup-configuration/{backupConfigId}
+
+    GET /backup-configuration/system/{agentId}
+    POST /backup-configuration/enable/{backupConfigId}
+
 ------
 Create
 ------
+
+Create a backup configuration. It requires a rather rich JSON body to
+set all the parameters.
+
+.. code-block:: bash
+
+    http post $backup/backup-configuration x-auth-token:$auth < conf.json
+
+Below is the request body as stored in conf.json:
+
+.. code-block:: json
+
+    {
+       "BackupConfigurationName": "Weekly Website Backup",
+       "IsActive": true,
+       "VersionRetention": 0|30|60,
+       "MissedBackupActionId": 1,
+       "Frequency": "Hourly,
+       "StartTimeHour": 6,
+       "StartTimeMinute": 30,
+       "StartTimeAmPm": "PM",
+       "DayOfWeekId": 4,
+       "HourInterval": null,
+       "TimeZoneId": "Eastern Standard Time",
+       "NotifyRecipients": "raxtestaddress1@gmail.com",
+       "NotifySuccess": true,
+       "NotifyFailure": true,
+       "Inclusions": [
+           {
+             "FilePath": "C:\\backup_up_file.txt",
+             "FileItemType": "File"
+           },
+           {
+             "FilePath": "C:\\backed_up_folder",
+             "FileItemType": "Folder"
+           }
+       ],
+       "Exclusions": [
+           {
+             "FilePath": "C:\\backed_up_folder\\excluded_file.txt",
+             "FileItemType": "File"
+           },
+           {
+             "FilePath": "C:\\backed_up_folder\\excluded_folder",
+             "FileItemType": "Folder"
+           }
+       ]
+     }
+
+**Response**
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
 
 ------
 Update
 ------
 
+As with POST, this takes a very rich JSON body. This replaces an
+existing configuration with a new one.
+
+.. code-block:: bash
+
+    http put $backup/backup-configuration/$backupConfigId x-auth-token:$auth < conf.json
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+
 ---------
 Fetch One
 ---------
+
+Fetches one backup configuration you've registered.
+
+.. code-block:: bash
+
+    http get $backup/backup-configuration/100850 x-auth-token:$auth
+
 
 ------------------
 Fetch All for User
 ------------------
 
+Fetches all backup configurations you've registered.
+
+.. code-block:: bash
+
+    http get $backup/backup-configuration x-auth-token:$auth
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+
+    {
+      [
+        {
+          "BackupConfigurationId": 100850,
+          "MachineAgentId": 96674,
+          "MachineName": "Web Server",
+          "Flavor": "RaxCloudServer",
+          "IsEncrypted": false,
+          "BackupConfigurationName": "Manual Website Backup",
+          "IsActive": true,
+          "IsDeleted": false,
+          "VersionRetention": 60,
+          "BackupConfigurationScheduleId": 98017,
+          "MissedBackupActionId": 2,
+          "Frequency": "Manually",
+          "StartTimeHour": null,
+          "StartTimeMinute": null,
+          "StartTimeAmPm": "",
+          "DayOfWeekId": null,
+          "HourInterval": null,
+          "TimeZoneId": "Eastern Standard Time",
+          "NextScheduledRunTime": null,
+          "LastRunTime": "\/Date(1343226053000)\/",
+          "LastRunBackupReportId": 80071,
+          "NotifyRecipients": "user@rackspace.com",
+          "NotifySuccess": false,
+          "NotifyFailure": true,
+          "Inclusions": [
+            {
+              "FilePath": "/web/",
+              "ParentId": 100850,
+              "FileItemType": "Folder",
+              "FileId": 2947
+            }
+          ],
+          "Exclusions": [
+            {
+              "FilePath": "/web/cache/",
+              "ParentId": 100850,
+              "FileItemType": "Folder",
+              "FileId": 2948
+            }
+          ]
+        },
+        {
+          "BackupConfigurationId": 100928,
+          "MachineAgentId": 96685,
+          "MachineName": "Database Server",
+          "Flavor": "RaxCloudServer",
+          "IsEncrypted": false,
+          "BackupConfigurationName": "Manual DB Backup",
+          "IsActive": true,
+          "IsDeleted": false,
+          "VersionRetention": 60,
+          "BackupConfigurationScheduleId": 98019,
+          "MissedBackupActionId": 2,
+          "Frequency": "Manually",
+          "StartTimeHour": null,
+          "StartTimeMinute": null,
+          "StartTimeAmPm": "",
+          "DayOfWeekId": null,
+          "HourInterval": null,
+          "TimeZoneId": "Eastern Standard Time",
+          "NextScheduledRunTime": null,
+          "LastRunTime": "\/Date(1343226074000)\/",
+          "LastRunBackupReportId": 80116,
+          "NotifyRecipients": "user@rackspace.com",
+          "NotifySuccess": false,
+          "NotifyFailure": true,
+          "Inclusions": [
+              {
+                "FilePath": "/db/dumps/",
+                "ParentId": 100928,
+                "FileItemType": "Folder",
+                "FileId": 3568
+              }
+          ],
+          "Exclusions": [
+              {
+                "FilePath": "/db/dumps/tmp/",
+                "ParentId": 100928,
+                "FileItemType": "Folder",
+                "FileId": 3570
+              }
+          ]
+        }
+      ]
+    }
+
 -------------------
 Fetch All for Agent
 -------------------
+
+.. code-block:: bash
+
+    http GET $backup/backup-configuration/system/{machineAgentId} x-auth-token:$auth
+
+The repsonse is similar to those above.
 
 --------------
 Enable/Disable
 --------------
 
+.. code-block:: bash
+
+    # enable
+    http POST $backup/backup-configuration/enable/{backupConfigurationId \
+      x-auth-token:$auth Enable=true
+
+    # disable
+    http POST $backup/backup-configuration/enable/{backupConfigurationId \
+      x-auth-token:$auth Enable=false
+
+The response body echoes the configuration.
+
 ------
 Delete
 ------
+
+.. code-block:: delete
+
+    http DELETE /backup-configuration/{backupConfigurationId} \
+      x-auth-token:$auth
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
 
 =================
 Backup Operations
