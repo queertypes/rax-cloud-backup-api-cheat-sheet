@@ -5,7 +5,7 @@ Rackspace Cloud Backup API Cheat Sheet
 .. image:: https://github.com/cabrera/rax-cloud-backup-api-cheat-sheet/raw/master/cloud-backup.png
     :alt: Cloud Server Backup Agent
 
-:version: 0.4.0
+:version: 0.4.1
 :reference: http://docs.rackspace.com/rcbu/api/v1.0/rcbu-devguide/content/overview.html
 
 This is a collection of notes for using the Rackspace `Cloud Backup`_ API.
