@@ -176,7 +176,7 @@ Now to enable that agent again::
 Enable Volume Encryption
 ------------------------
 
-**Warning**: This is a **one-way** operation. Once you enable
+**Warning** This is a **one-way** operation. Once you enable
  encryption, there's no going back!
 
 With that said, this is how you enable encryption::
@@ -219,6 +219,8 @@ It gives *a lot* of information:
     http $backup/user/agents x-auth-token:$auth
 
 .. code-block:: http
+
+    HTTP/1.1 200 OK
 
     [
         {
@@ -361,9 +363,13 @@ Fetches all backup configurations you've registered.
 
     http get $backup/backup-configuration x-auth-token:$auth
 
+**Response**
+
 .. code-block:: http
 
     HTTP/1.1 200 OK
+
+.. code-block:: json
 
     {
       [
