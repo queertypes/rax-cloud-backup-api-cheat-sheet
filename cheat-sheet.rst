@@ -507,6 +507,14 @@ Delete
 Backup Operations
 =================
 
+Synopsis::
+
+    POST /backup/action-requested
+    GET /backup/{backupId}
+    GET /backup/completed/{backupConfigurationId}
+    GET /backup/report/{backupId}
+
+
 ----------
 Start/Stop
 ----------
@@ -526,6 +534,14 @@ Get Backup Report
 ================================
 Restore Configuration Operations
 ================================
+
+Synopsis::
+
+    PUT /restore
+    POST /restore
+    PUT /restore/files
+    GET /restore/files/{restoreId}
+    DELETE /restore/files/{restoreId}
 
 ------
 Create
@@ -551,6 +567,13 @@ Delete
 Restore Operations
 ==================
 
+Synopsis::
+
+  GET /backup/availableforrestore
+  POST /restore/action-requested
+  GET /restore/{restoreId}
+  GET /restore/report/{restoreId}
+
 ----------------------------------
 List Backups Available for Restore
 ----------------------------------
@@ -571,6 +594,11 @@ Get Report
 Activity Operations
 ===================
 
+Synopsis::
+
+  GET /system/activity/{agentId}
+  GET /activity
+
 ------------------
 List User Activity
 ------------------
@@ -582,6 +610,11 @@ List Agent Activity
 ===============
 Help Operations
 ===============
+
+Synopsis::
+
+  GET /help/developerguide
+  GET /help/supportedimages/{cloudServersPlatform}
 
 -------------------
 Get Developer Guide
