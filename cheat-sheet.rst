@@ -17,6 +17,21 @@ Commands below are given using `httpie`_, the Python command line HTTP client.
 
     PageBreak
 
+===========
+Conventions
+===========
+
+Let's set a few variable we'll be using for the rest of this cheat
+sheet:
+
+.. code-block:: bash
+
+    auth=my-awesome-auth-token-from-a-rackspace-keystone-endpoint
+    backup=https://backup.api.rackspacecloud.com/v1.0
+
+For brevity's sake, I've omitted several HTTP headers from API
+responses.
+
 ============
 Authenticate
 ============
@@ -30,13 +45,6 @@ All requests to the API require a valid auth token. Here's how to get one:
     http POST https://identity.api.rackspacecloud.com/v2.0/tokens \
       auth:='{"passwordCredentials": {"username": "myuser", "password": "mypass"}}' \
       content-type:application/json
-    # extract response.access.token.id for auth_token
-    # extract response.access.serviceCatalog.X.endpoints[0].publicURL 
-    #   for storageURL where X is the entry in the serviceCatalog
-    #   pertaining to cloud backup
-    auth=response.access.token.id
-    backup=response.access.serviceCatalog.X.endpoints[0].publicURL
-
 
 **Response**
 
@@ -61,13 +69,12 @@ All requests to the API require a valid auth token. Here's how to get one:
                 {
                     "endpoints": [
                         {
-                            "internalURL": "snet-storageURL",
                             "publicURL": "storageURL",
-                            "region": "DFW"
+                            "tenantId": "000001"
                         }
                     ],
-                    "name": "cloudFiles",
-                    "type": "object-store"
+                    "name": "cloudBackup",
+                    "type": "rax:backup"
                 },
             ],
             "token": {
@@ -90,13 +97,63 @@ All requests to the API require a valid auth token. Here's how to get one:
 Agent Operations
 ================
 
+These are global operations that affect the state of the entire backup
+installation on your machine. Use them with caution. Here's the
+synopsis::
+
+    GET /agent/{agentId}
+    POST /agent/enable
+    POST /agent/encrypt
+    POST /agent/delete
+
+The User Operations section details how to acquire the agent ID.
+
 -----------------
 Get Agent Details
 -----------------
 
+Returns details about your machine and the agent installed.
+
+.. code-block:: bash
+
+    http get $backup/agents
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+    Content-Length: 1001
+    Content-Type: application/json; charset=utf-8
+
+    {
+        "AgentVersion": "1.05.006334",
+        "Architecture": "64-bit",
+        "BackupDatacenter": "None",
+        "BackupVaultSize": "0 KB",
+        "CleanupAllowed": false,
+        "Datacenter": "DFW",
+        "Flavor": "RaxCloudServer",
+        "IPAddress": "166.78.156.102",
+        "IsDisabled": false,
+        "IsEncrypted": false,
+        "MachineAgentId": 169057,
+        "MachineName": "keystone-auth-cache",
+        "OperatingSystem": "Ubuntu",
+        "OperatingSystemVersion": "12.10",
+        "PublicKey": {
+            "ExponentHex": 10101,
+            "ModulusHex": "im_really_long"
+        },
+        "Status": "Offline",
+        "TimeOfLastSuccessfulBackup": null,
+        "UseFailoverUri": false,
+        "UseServiceNet": true
+    }
+
 ---------------------------
 Enable or Disable the Agent
 ---------------------------
+
+
 
 ------------------------
 Enable Volume Encryption
