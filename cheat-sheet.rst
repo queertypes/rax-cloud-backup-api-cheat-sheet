@@ -218,9 +218,13 @@ It gives *a lot* of information:
 
     http $backup/user/agents x-auth-token:$auth
 
+**Response**
+
 .. code-block:: http
 
     HTTP/1.1 200 OK
+
+.. code-block:: json
 
     [
         {
