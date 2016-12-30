@@ -55,7 +55,7 @@ All requests to the API require a valid auth token. Here's how to get one:
     Connection: keep-alive
     Content-Encoding: gzip
     Content-Type: application/json
-    Date: Mon, 22 Apr 2013 17:31:38 GMT
+    Date: Mon, 22 Apr 2016 17:31:38 GMT
     Front-End-Https: on
     Server: nginx/0.8.55
     Transfer-Encoding: chunked
@@ -79,7 +79,7 @@ All requests to the API require a valid auth token. Here's how to get one:
                 },
             ],
             "token": {
-                "expires": "2013-04-23T09:45:24.000-05:00",
+                "expires": "2016-04-23T09:45:24.000-05:00",
                 "id": "auth_token",
             },
             "user": {

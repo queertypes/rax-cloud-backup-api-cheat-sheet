@@ -2,7 +2,7 @@
 Rackspace Cloud Backup API Cheat Sheet
 **************************************
 
-.. image:: https://github.com/cabrera/rax-cloud-backup-api-cheat-sheet/raw/master/cloud-backup.png
+.. image:: https://github.com/queertypes/rax-cloud-backup-api-cheat-sheet/raw/master/cloud-backup.png
     :alt: Cloud Server Backup Agent
 
 :version: 0.4.3
@@ -48,4 +48,4 @@ Author
 ======
 
 If you have any questions, corrections, or contributions, please
-contact Alejandro Cabrera <alejandro.cabrera@rackspace.com>.
+contact Allele Dev <allele.dev@gmail.com>.
